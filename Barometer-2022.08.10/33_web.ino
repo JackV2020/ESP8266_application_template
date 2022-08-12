@@ -29,15 +29,17 @@ void serve_WiFi_mgr (AsyncWebServerRequest * request ) {
   html_response = String(ap_Header);
   html_response.replace(F("REFRESH"), F(""));
   html_response.concat(String(WiFi_Manager));
-  html_response.replace(F("<body"),F("<body ondblclick=\"window.location.href = '/';\""));
+  html_response.replace(F("<body"),F("<body ondblclick=\"history.back();\""));
   html_response.replace(F("STAHOSTNAME"),sta_hostname);
   html_response.replace(F("DROPDOWNSSIDS"),drop_down_SSIDs(F("sta_ssid"),F("sta_ssid_id")));
   html_response.replace(F("APP_PASSWORD_PLACEHOLDER"),String(app_password_placeholder));
   html_response.replace(F("APP_SHOW_PASSWORD_LABEL"),String(app_show_password_label));
 
-  html_response.concat(F("<div id=\"bottom\"><hr>"));
-  html_response.concat(String(appVersion));
-  html_response.concat(F("<hr></div></body></html>"));
+  html_response.replace(F("APP_VERSION"),appVersion);
+
+//  html_response.concat(F("<div id=\"bottom\"><hr>"));
+//  html_response.concat(String(appVersion));
+//  html_response.concat(F("<hr></div></body></html>"));
   char* c = const_cast<char*>(html_response.c_str());
   request->send_P(200, texthtml, c);
 
@@ -403,6 +405,10 @@ The password is shown nowhere but can be bypassed by what you define in app_pass
         if (new_email_password != "" ) {email_password = new_email_password ; }
         if (old_value != email_password) {log(F("Change email password to something else"));};
 
+        old_value = email_link;
+        if (request->hasParam(F("email_link"), true))     { email_link = request->getParam(F("email_link"), true)->value(); }
+        if (old_value    != email_link   ) {log(F("Change email_link from ")+old_value+F(" to ")+email_link);};
+
 // ***** when you want to use the dropppint service, dropppint is already part of saved and read config data ;-)
 // no need to remove this.
 
@@ -444,11 +450,12 @@ The password is shown nowhere but can be bypassed by what you define in app_pass
     html_response.replace(F("SMTP_PORT"),smtp_port);
     html_response.replace(F("EMAIL_LOGIN"),email_login);
     html_response.replace(F("DROPPOINT"),droppoint);
+    html_response.replace(F("EMAIL_LINK"),email_link);
     html_response.replace(F("STA_HOSTNAME"),sta_hostname);
     html_response.replace(F("TIMEZONESELECT"),String(timezoneselect));
     html_response.replace(F("value=\"")+time_zone+F("\""),F("value=\"")+time_zone+F("\" selected"));
     html_response.replace(F("STATUS_TXT"),status_txt);
-    
+
     html_response.concat(String(SetupBottom));
     html_response.replace(F("APP_PASSWORD_PLACEHOLDER"),String(app_password_placeholder));
     html_response.replace(F("APP_SHOW_PASSWORD_LABEL"),String(app_show_password_label));

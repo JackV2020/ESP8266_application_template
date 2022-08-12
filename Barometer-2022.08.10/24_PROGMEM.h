@@ -10,6 +10,9 @@
 // Header for web pages on Access Point interface with WiFi Manager
 // ======================================================================
 
+// for 'input[type=text] + span {' etc below see :
+// https://stackoverflow.com/questions/60503161/how-to-force-title-attribute-to-show-even-when-is-input-active-clicked
+
 static const char ap_Header[] PROGMEM = R"====(
 REFRESH
 <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1">
@@ -20,6 +23,18 @@ input[type="text"]{text-align: center;border-radius:15px;-moz-border-radius:15px
 body {margin: 0; line-height: 80%; height: 100vh; background: radial-gradient(circle at 90%, #888, #aaa 20%,  #888 50%, #eee 75%, #555 75%, #eee 76%); }
 #bottom {position: absolute;bottom: 0;width: 100%;}
 .rnd_btn {  background-color: lightgrey; border-radius: 50%; border-width : 3; border-color: silver; color: blue; width: 100px; height: 50px; text-align: center}
+input[type=text] + span {
+  display: none;
+}
+input[type=text]:focus + span {
+  display: inline;
+}
+input[type=password] + span {
+  display: none;
+}
+input[type=password]:focus + span {
+  display: inline;
+}
 </style></head><body>
 <div id="main">
 <br><br><br><br><p>WiFi Manager</p>
@@ -40,6 +55,18 @@ body {margin: 0; line-height: 80%; height: 100vh; background:
   radial-gradient(circle at 90% 60%,rgb(255,255,100) , rgb(255,255,160) 20%,  rgb(255,255,100) 30%, rgb(255,255,180) 40%,
   rgb(255,255,100) 50%, rgb(255,255,200) 60%, rgb(255,215,0, 0.5) 70%, gold 75% 3px , black 76%); }
 .rnd_btn {  background-color: lightgrey; border-radius: 50%; border-width : 3; border-color: gold; color: blue; width: 100px; height: 50px; text-align: center}
+input[type=text] + span {
+  display: none;
+}
+input[type=text]:focus + span {
+  display: inline;
+}
+input[type=password] + span {
+  display: none;
+}
+input[type=password]:focus + span {
+  display: inline;
+}
 </style></head><body id="theBody">
 <div id="main">
 <br><br><br><br>
@@ -67,17 +94,20 @@ static const char texthtml[] PROGMEM = "text/html";
 //  <br><br><input type="password" name="sta_pwd"          id="sta_pwd" value="" placeholder="Password">
 
 static const char WiFi_Manager[] PROGMEM = R"====(
-<br>
+APP_VERSION
+<br><br>
 <form action="/WiFi_info" method="POST">
+<button class="rnd_btn" style="position:fixed; top:20; left:5;">Save</button>
+<button class="rnd_btn" style="position:fixed; top:100; left:5;" name="reboot" value="yes">Refresh</button>
 DROPDOWNSSIDS
 <br><br><input type="password" name="sta_pwd"          id="sta_pwd" value="" placeholder="Password">
+<span><br><br>WiFi password :<br><br>Leave empty to not change.<br></span>
 <br><input type="checkbox" onclick="toggleShowPwdField('sta_pwd')">Show Password
-<br><br><input type="text" name="sta_hostname" required pattern="[a-z0-9_]{4,20}" title="hostname is 4 to 20 lower case letters+digits+underscores" value="STAHOSTNAME"placeholder="hostname">
+<br><br><input type="text" name="sta_hostname" required pattern="[a-z0-9_]{4,20}" value="STAHOSTNAME"placeholder="hostname"><span><br><br>hostname 4 to 20<br><br>lower case letters+digits+underscores</span>
 <br><input type="text" id="dummy" name="dummy" style="height: 0px;width: 0px;border:none;background-color:grey;"  >
 <br><br><input type="password" name="app_password" id="app_password" required placeholder="APP_PASSWORD_PLACEHOLDER">
+<span><br><br>App password to Save settings :<br><br>Can be changed on System Setup page.<br></span>
 <br><input type="checkbox" onclick="toggleShowPwdField('app_password')">APP_SHOW_PASSWORD_LABEL
-<br><br><br><button class="rnd_btn">Save</button>
-<br><br><button class="rnd_btn" name="reboot" value="yes">Refresh</button>
 </form>
 </div></center>
 <script>
@@ -149,12 +179,19 @@ static const char SetupSystem[] PROGMEM = R"====(
 <form action="/setup_system" method="POST">
 <button class="rnd_btn" style="position:fixed; top:20; left:5" name="savesystemsetup" value="yes">Save</button>
 <input type="checkbox" id="email_enabled" name="email_enabled" value="yes" M_ENACHECKED>Enable Mail
-<br><br><input type="text" id="email_to" name="email_to" placeholder="to1@x.com(;to2@y.com(;...))" value=EMAIL_TO>
+<br><br><input type="text" id="email_to" name="email_to" placeholder="Mail recipients" value=EMAIL_TO>
+<span><br><br>Mail recipients :<br><br>to1@x.com(;to2@y.com(;...))</span>
 <br><br><input type="text" id="smtp_server" name="smtp_server" placeholder="Mail host" value=SMTP_SERVER>
-<br><br><input type="text" id="smtp_port" name="smtp_port" placeholder="Port" value=SMTP_PORT>
-<br><br><input type="text" id="email_login" name="email_login" placeholder="Sender@x.com" value=EMAIL_LOGIN>
-<br><br><input type="password" name="email_password" id="email_password" placeholder="Password">
+<span><br><br>Mail host :<br><br>smtp.gmail.com</span>
+<br><br><input type="text" id="smtp_port" name="smtp_port" placeholder="Mail smtp port" value=SMTP_PORT>
+<span><br><br>Mail smtp port :<br><br>465</span>
+<br><br><input type="text" id="email_login" name="email_login" placeholder="Mail login" value=EMAIL_LOGIN>
+<span><br><br>Mail login :<br><br>Sender@x.com</span>
+<br><br><input type="password" name="email_password" id="email_password" placeholder="Mail password">
+<span><br><br>Mail password :<br><br>Leave empty to not change.<br></span>
 <br><input type="checkbox" onclick="toggleShowPwdField('email_password')">Show Password
+<br><br><input type="text" id="email_link" name="email_link" placeholder="Link in mail" value=EMAIL_LINK>
+<span><br><br>Browser addres for link in mail :<br><br>Leave empty for LAN access only.<br><br>When you have port forwarding<br><br>on your Internet router you may use :<br><br>http://InternetAddress:port/[app]</span>
 <br><br>TIMEZONESELECT
 <!-- <br><br><input type="text" id="droppoint" name="droppoint" placeholder="https://srv:443/droppoint/droppoint.php" value=DROPPOINT> -->
 )====";
@@ -169,8 +206,9 @@ static const char SetupSystem[] PROGMEM = R"====(
 // the dummy is a trick to avoid a popup when entering the last field before that which is caused by the password type of 'app_password' below
 
 static const char SetupBottom[] PROGMEM = R"====(
-<br><br><input type="text" id="dummy" name="dummy" style="height: 0px;width: 0px;border:none;"  >
+<br><br><br><input type="text" id="dummy" name="dummy" style="height: 0px;width: 0px;border:none;"  >
 <input type="password" name="app_password" id="app_password" required placeholder="APP_PASSWORD_PLACEHOLDER">
+<span><br><br>App password to Save settings :<br><br>Can be changed on System Setup page.<br></span>
 <br><input type="checkbox" onclick="toggleShowPwdField('app_password')">APP_SHOW_PASSWORD_LABEL
 </form>
 <script>function toggleShowPwdField(what) {

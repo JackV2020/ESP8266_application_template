@@ -68,6 +68,7 @@ String email_to = "";                   // receiver@someprovider.domain
 String smtp_server = "smtp.gmail.com";  // smtp server to send mail to
 String smtp_port = "465";               // TLS Use port 465 for gmail
 String droppoint ="https://veraart.thehomeserver.net:443/droppoint/droppoint.php";    // default value for my droppoint https
+String email_link;                      // in the mail is an url which defaults to address on LAN, fill in on setup page when you use port forwarding
 
 // ---- files
 

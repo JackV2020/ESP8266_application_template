@@ -67,6 +67,7 @@ void std_setup() {
 
   /* Set the callback function to get the sending results */
 // I use none so see the examples if you want one. (like File > Examples > ESP Mail Client > SMTP > Custom Client )
+// maybe put the next in your 20_setup_loop
 //  smtp.callback(smtpCallback);
 
 // setup the ftp server with username and password

@@ -6,14 +6,13 @@
 
 String app_name = "Barometer";  // label on homepage button
 
-static const char appVersion[] PROGMEM = R"====(V.2022.08.04)====";   // appVersion number yyyy.mm.dd as shown in WiFi_mgr and json page
+static const char appVersion[] PROGMEM = R"====(V.2022.08.10)====";   // appVersion number yyyy.mm.dd as shown in WiFi_mgr and json page
 
 static const int maxSize_system_log = 5000;                           // In characters and used by log() for appendFile / prependFile
 
 static const char default_app_password[] PROGMEM = ".";               // keep this simple
 String app_password = default_app_password;                           // Used to protect settings on mail setup page, startvalue is default_app_password which is a "."
-//static const char app_password_secret[] PROGMEM = "SecretPassword"; // When you changed the password and forgot it, this can be used to reset to default_app_password "."
-static const char app_password_secret[] PROGMEM = "Barometer ID";     // When you changed the password and forgot it, this can be used to reset to default_app_password "."
+static const char app_password_secret[] PROGMEM = "SecretPassword"; // When you changed the password and forgot it, this can be used to reset to default_app_password "."
 
 static const char app_password_placeholder[] PROGMEM = "Barometer ID (required)" ; // Placeholder as info in app_password field on web setup page
 static const char app_show_password_label[] PROGMEM = "Show Barometer ID" ;        // Label for show app_password checkbox on web setup page

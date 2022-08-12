@@ -275,6 +275,7 @@ void saveConfig(){
 //  config.concat(F("\" , \"email_password\":\"")); config.concat(sencdec(email_password, key0 , key1, key2));
   config.concat(F("\" , \"email_password\":\"")); config.concat(sencdec(email_password));
   config.concat(F("\" , \"email_to\":\""));       config.concat(email_to);
+  config.concat(F("\" , \"email_link\":\""));    config.concat(email_link);
   config.concat(F("\" , \"smtp_server\":\""));    config.concat(smtp_server);
   config.concat(F("\" , \"smtp_port\":\""));      config.concat(smtp_port);
 //  config.concat(F("\" , \"app_password\":\""));   config.concat(sencdec(app_password, key0 , key1, key2));
@@ -305,6 +306,7 @@ void readConfig(){
     parsejson(config,F("email_password"),email_password);
     email_password = sencdec(email_password);
     parsejson(config,F("email_to"),email_to);
+    parsejson(config,F("email_link"),email_link);
     parsejson(config,F("smtp_server"),smtp_server);
     parsejson(config,F("smtp_port"),smtp_port);
     parsejson(config,F("app_password"),app_password);

@@ -41,6 +41,7 @@ String sencdec(String input,
             char key2 = ESP.getChipId() % 123);
 
 String sendMail(String messageSubject, String messageToSend);
+void smtpCallback(SMTP_Status status);
 
 // 33_web
 
