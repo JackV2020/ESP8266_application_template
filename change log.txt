@@ -1,3 +1,6 @@
+V.2022.08.14
+- Added Mail Test button to setup page
+- Small layout adjustments on the WiFi manager page.
 V.2022.08.10
 - Show field info on the system setup page when a field is selected.
 - An optional mail link setting on the system setup page.

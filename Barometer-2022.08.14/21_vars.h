@@ -6,7 +6,7 @@
 
 String app_name = "Barometer";  // label on homepage button
 
-static const char appVersion[] PROGMEM = R"====(V.2022.08.10)====";   // appVersion number yyyy.mm.dd as shown in WiFi_mgr and json page
+static const char appVersion[] PROGMEM = R"====(V.2022.08.14)====";   // appVersion number yyyy.mm.dd as shown in WiFi_mgr and json page
 
 static const int maxSize_system_log = 5000;                           // In characters and used by log() for appendFile / prependFile
 

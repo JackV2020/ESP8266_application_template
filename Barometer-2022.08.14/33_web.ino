@@ -241,6 +241,7 @@ void serve_setup(AsyncWebServerRequest *request) {  // This is the standard setu
 
     html_response = F("Not found");
   } else {
+    readConfig();
     String status_txt = F("Setup");
     html_response = String(sta_Header);
     html_response.replace(F("<body"),F("<body ondblclick=\"window.location.href = '/';\""));
@@ -424,9 +425,21 @@ The password is shown nowhere but can be bypassed by what you define in app_pass
           log(F("Change time zone from ")+old_value+F(" to ")+time_zone);
         };
 
-        saveConfig();
+//        saveConfig();
 
-        status_txt = F("<font color=\"green\">Saved</font>");
+//        status_txt = F("<font color=\"green\">Saved</font>");
+
+        String testmail ="no";
+        if (request->hasParam(F("testmail"), true))      { testmail     = request->getParam(F("testmail"), true)->value(); }
+        
+        if (testmail == "yes" ) {
+          firstTimeUpdateAfterConnect = 1;
+          status_txt = F("<font color=\"green\">Mail sent</font>");
+        } else {
+          saveConfig();
+          status_txt = F("<font color=\"green\">Saved</font>");
+        }      
+      
       } else {
         status_txt = F("<font color=\"red\">Wrong Entry</font>");
       }

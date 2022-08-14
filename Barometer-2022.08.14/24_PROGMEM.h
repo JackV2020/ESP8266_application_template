@@ -98,7 +98,7 @@ APP_VERSION
 <br><br>
 <form action="/WiFi_info" method="POST">
 <button class="rnd_btn" style="position:fixed; top:20; left:5;">Save</button>
-<button class="rnd_btn" style="position:fixed; top:100; left:5;" name="reboot" value="yes">Refresh</button>
+<button class="rnd_btn" style="position:fixed; top:80; left:5;" name="reboot" value="yes">Refresh</button>
 DROPDOWNSSIDS
 <br><br><input type="password" name="sta_pwd"          id="sta_pwd" value="" placeholder="Password">
 <span><br><br>WiFi password :<br><br>Leave empty to not change.<br></span>
@@ -158,7 +158,7 @@ var now = new Date().getTime();
 var df = cd - now;
 var sec = Math.floor(df / 1000) ;
 document.getElementById("timer").innerHTML = "We need a restart<br><br>Please wait....<br><br>" + sec + " seconds";
-if (df < 0) {
+if (sec == 0) {
 clearInterval(x);
 window.location.href = 'http://STA_HOSTNAME/';
 }
@@ -177,7 +177,8 @@ window.location.href = 'http://STA_HOSTNAME/';
 static const char SetupSystem[] PROGMEM = R"====(
 <p>STATUS_TXT</p>
 <form action="/setup_system" method="POST">
-<button class="rnd_btn" style="position:fixed; top:20; left:5" name="savesystemsetup" value="yes">Save</button>
+<button class="rnd_btn" style="position:fixed; top:20; left:5;" name="savesystemsetup" value="yes">Save</button>
+<button class="rnd_btn" style="position:fixed; top:80; left:5;" name="testmail" value="yes">Test Mail</button>
 <input type="checkbox" id="email_enabled" name="email_enabled" value="yes" M_ENACHECKED>Enable Mail
 <br><br><input type="text" id="email_to" name="email_to" placeholder="Mail recipients" value=EMAIL_TO>
 <span><br><br>Mail recipients :<br><br>to1@x.com(;to2@y.com(;...))</span>
