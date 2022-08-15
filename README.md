@@ -32,6 +32,7 @@ When you do not have a bme280 you can run it in  demo mode.
   - 'Passwords'
     - When the device is still on WiFi and we forgot the setup password
     - When the device is not on WiFi and we forgot the setup password
+    - Add a reset button
 
 ## The template, what does the result look like ?
 
@@ -344,4 +345,30 @@ This leaves all app data, logging and all other files we put on it in place.
 Reboot the device and reconfigure everything.
 
 ( FileZilla > Site Manager on tab 3 limit the connections to 1.)
- 
+
+#### Add a reset button
+
+Another method is to be prepared with a reset button.
+
+You can connect a switch between D5 and 0 volt and add some code.
+
+In the setup of 20_setup_loop you add :
+
+  pinMode(D5, INPUT_PULLUP);
+
+In the loop of 20_setup_loop you add :
+
+  if(!digitalRead(D5))
+  {
+    deleteFile(String(file_config));
+    rebootRequestCounter = 2;
+    rebootRequestReason = F("Reset button pressed");
+  }
+
+When you press the switch :
+  - the configuration file is deleted
+  - the system ticker (35_systemTicker) will save your app data
+  - the system ticker logs an event in the system log
+  - the system ticker reboots your device
+  
+App data and logging stays available so after connecting to the access point and configuring WiFi you can configure the system settings and all app settings, data and logging is still in place.
