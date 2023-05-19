@@ -94,11 +94,20 @@ void lcl_PrepHumidex() {
   }
 }
 
+void lcl_PrepPressureMinutes() {
+// process last part of graphdata array. Another step will cut the right part for the number of minutes
+  for (int i = 0 ; i < 121 ; i++ ) {
+//    Serial.println(String(i)+" "+String(i+48));
+    graphdata[i+48] = PressureMinutes[i] + Pressure_offset ;
+  }
+}
+
 void serve_barometer(AsyncWebServerRequest * request) {
 
   showServing(request);
 
-  if (virtualhost == ap_IP) {
+//  if (virtualhost == ap_IP) {
+  if (1 == 2) {
     html_response = F("Not found");
   } else {
 
@@ -107,26 +116,28 @@ void serve_barometer(AsyncWebServerRequest * request) {
     html_response = String(sta_Header);
 
     if (barometer_page_nr == 0 ) {
-      html_response = html_response + String(appShowGauges);
-      html_response.replace(F("<body"),"<body ondblclick=\"window.location.href = '/';\"");
+//      html_response = html_response + String(appShowGauges);
+      html_response.concat(String(appShowGauges));
+      html_response.replace(F("<body"),F("<body ondblclick=\"window.location.href = '/';\""));
       html_response.replace(F("GAUGEINTERVAL"),gaugeInterval);
       html_response.replace(F("TEMPERATURE"),String(Temperature+Temperature_offset));
       html_response.replace(F("DEGREE"),String(char(176)));
       html_response.replace(F("PRESSURE"),String(Pressure+Pressure_offset));
       html_response.replace(F("HUMIDITY"),String(Humidity+Humidity_offset));
     } else {
-      html_response = html_response + String(appShowChart);
-      html_response.replace(F("BTHIS"), String(barometer_page_nr));
+//      html_response = html_response + String(appShowChart);
+      html_response.concat(String(appShowChart));
+//      html_response.replace(F("BTHIS"), String(barometer_page_nr));
       if (barometer_page_nr == 8) {
-          html_response.replace(F("STATUS_TXT"),"Last 120 minutes");
+          html_response.replace(F("STATUS_TXT"),F("Last 120 minutes"));
       } else {
         if (graphDays == 1) {
-          html_response.replace(F("STATUS_TXT"),"Last day");
+          html_response.replace(F("STATUS_TXT"),F("Last day"));
         } else {
-          html_response.replace(F("STATUS_TXT"),"Last "+String( graphDays)+" days");
+          html_response.replace(F("STATUS_TXT"),F("Last ")+String( graphDays)+F(" days"));
         }
       }
-      html_response.replace(F("CHARTID"),"Chart1");
+      html_response.replace(F("CHARTID"),F("Chart1"));
       html_response.replace(F("DATETIME.CDT"),datetime.CDT);
 
       int step;
@@ -161,41 +172,46 @@ void serve_barometer(AsyncWebServerRequest * request) {
       switch (barometer_page_nr) {
         case 1 :
           lcl_PrepGraphGata(Temperatures, Temperature_offset) ;
-          html_response.replace(F("LABEL"),"<a href=\"https://en.m.wikipedia.org/wiki/Temperature\">Temperature &degC</a> ");
+          html_response.replace(F("LABEL"),F("<a href=\"https://en.m.wikipedia.org/wiki/Temperature\">Temperature &degC</a>"));
           html_response.replace(F("DATA"),floatArrayToString(graphdata, datahours+1, (7 - graphDays) * 24 ) );
         break;
         case 2 :
           lcl_PrepGraphGata(Pressures, Pressure_offset) ;
-          html_response.replace(F("LABEL"),"<a href=\"https://en.m.wikipedia.org/wiki/Atmospheric_pressure#Surface_pressure\">Pressure hPa</a> ");
+          html_response.replace(F("LABEL"),F("<a href=\"https://en.m.wikipedia.org/wiki/Atmospheric_pressure#Surface_pressure\">Pressure hPa</a>"));
           html_response.replace(F("DATA"),floatArrayToString(graphdata, datahours+1, (7 - graphDays) * 24 ) );
         case 3 :
           lcl_PrepGraphGata(Humidities, Humidity_offset) ;
-          html_response.replace(F("LABEL"),"<a href=\"https://en.m.wikipedia.org/wiki/Humidity#Relative_humidity\">Relative Humidity %</a> ");
+          html_response.replace(F("LABEL"),F("<a href=\"https://en.m.wikipedia.org/wiki/Humidity#Relative_humidity\">Relative Humidity %</a>"));
           html_response.replace(F("DATA"),floatArrayToString(graphdata, datahours+1, (7 - graphDays) * 24 ) );
         break;
         case 4 :
           lcl_PrepDewpoints() ;
-          html_response.replace(F("LABEL"),"<a href=\"https://en.m.wikipedia.org/wiki/Dew_point\">Dewpoint &degC</a> ");
+          html_response.replace(F("LABEL"),F("<a href=\"https://en.m.wikipedia.org/wiki/Dew_point\">Dewpoint &degC</a>"));
           html_response.replace(F("DATA"),floatArrayToString(graphdata, datahours+1, (7 - graphDays) * 24 ) );
         break;
         case 5 :
           lcl_PrepHumidex() ;
-          html_response.replace(F("LABEL"),"<a href=\"https://en.m.wikipedia.org/wiki/Humidex\">Humidex</a> ");
+          html_response.replace(F("LABEL"),F("<a href=\"https://en.m.wikipedia.org/wiki/Humidex\">Humidex</a>"));
           html_response.replace(F("DATA"),floatArrayToString(graphdata, datahours+1, (7 - graphDays) * 24 ) );
         break;
         case 6 :
           lcl_PrepPressureChanges(1) ;
-          html_response.replace(F("LABEL"),"<a href=\"https://www.worldstormcentral.co/law%20of%20storms/secret%20law%20of%20storms.html\">hPa / hour</a> ");
+          html_response.replace(F("LABEL"),F("<a href=\"https://www.worldstormcentral.co/law%20of%20storms/secret%20law%20of%20storms.html\">hPa / hour</a>"));
           html_response.replace(F("DATA"),floatArrayToString(graphdata, datahours+1, (7 - graphDays) * 24 ) );
         break;
         case 7 :
           lcl_PrepPressureChanges(2) ;
-          html_response.replace(F("LABEL"),"<a href=\"https://www.worldstormcentral.co/law%20of%20storms/secret%20law%20of%20storms.html\">hPa / 2 hours</a> ");
+          html_response.replace(F("LABEL"),F("<a href=\"https://www.worldstormcentral.co/law%20of%20storms/secret%20law%20of%20storms.html\">hPa / 2 hours</a>"));
           html_response.replace(F("DATA"),floatArrayToString(graphdata, datahours+1, (7 - graphDays) * 24 ) );
         break;
         case 8 :
-          html_response.replace(F("LABEL"),"<a href=\"https://en.m.wikipedia.org/wiki/Atmospheric_pressure#Surface_pressure\">Pressure hPa</a> ");
-          html_response.replace(F("DATA"),floatArrayToString(PressureMinutes, 121,0));
+          lcl_PrepPressureMinutes();
+//          Serial.println(floatArrayToString(graphdata, datahours+1, datahours+1-121));
+//          Serial.println(floatArrayToString(PressureMinutes, 121,0));
+//          Serial.println(String(graphdata[48]) + "  "+String(graphdata[168]));
+          html_response.replace(F("LABEL"),F("<a href=\"https://en.m.wikipedia.org/wiki/Atmospheric_pressure#Surface_pressure\">Pressure hPa</a>"));
+          html_response.replace(F("DATA"),floatArrayToString(graphdata, datahours+1, datahours+1-121));
+//          html_response.replace(F("DATA"),floatArrayToString(PressureMinutes, 121,0));
         break;
       }
     }

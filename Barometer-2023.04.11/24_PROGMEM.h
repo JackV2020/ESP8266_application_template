@@ -54,7 +54,8 @@ input[type="text"]{text-align: center;border-radius:15px;-moz-border-radius:15px
 body {margin: 0; line-height: 80%; height: 100vh; background: 
   radial-gradient(circle at 90% 60%,rgb(255,255,100) , rgb(255,255,160) 20%,  rgb(255,255,100) 30%, rgb(255,255,180) 40%,
   rgb(255,255,100) 50%, rgb(255,255,200) 60%, rgb(255,215,0, 0.5) 70%, gold 75% 3px , black 76%); }
-.rnd_btn {  background-color: lightgrey; border-radius: 50%; border-width : 3; border-color: gold; color: blue; width: 100px; height: 50px; text-align: center}
+.rnd_btn { background-color: lightgrey; border-radius: 50%; border-width : 3; border-color: gold; color: blue; width: 100px; height: 50px; text-align: center}
+.rnd_btn2 { display:none; background-color: Chartreuse; border-radius: 50%; border-width : 3; border-color: gold; color: blue; width: 100px; height: 50px; text-align: center}
 input[type=text] + span {
   display: none;
 }
@@ -71,6 +72,10 @@ input[type=password]:focus + span {
 <div id="main">
 <br><br><br><br>
 )====";
+
+// for 'input[type=text] + span {' etc see :
+// https://stackoverflow.com/questions/60503161/how-to-force-title-attribute-to-show-even-when-is-input-active-clicked
+
 
 // ======================================================================
 //  No changes below
@@ -124,13 +129,16 @@ else {x.type = "password";}}
 // ======================================================================
 
 static const char sta_HomePage[] PROGMEM = R"====(
-<br><br>
-<button class="rnd_btn" STYLE onclick="window.location.href = '/app';" >APPNAME</button>
-<br><br><br><button class="rnd_btn" onclick="window.location.href = '/json';" >JSON</button>
+<center>
+<a href="/app"><img src="/logo" width="100" height="100" onerror="this.style.display='none';document.getElementById('app_button').style.display = 'block';"></a>
+<br><br><button class="rnd_btn2" onclick="window.location.href = '/app';" id="app_button">APPNAME</button>
+<br><br><button class="rnd_btn" onclick="window.location.href = '/setup';" >Setup</button>
 <br><br><br><button class="rnd_btn" onclick="window.location.href = '/log';" >Log File</button>
-<br><br><br><button class="rnd_btn" onclick="window.location.href = '/setup';" >Setup</button>
+<br><br><br><button class="rnd_btn" onclick="window.location.href = '/json';" >JSON</button>
+</center>
 </div></body></html>
 )====";
+//<br><br><button class="rnd_btn" STYLE style="display:none;" onclick="window.location.href = '/app';" id="app_button">APPNAME</button>
 
 // ======================================================================
 //  Station interface setup page with buttons <<Do not change>>

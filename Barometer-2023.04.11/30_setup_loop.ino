@@ -108,6 +108,8 @@ void std_setup() {
 
   WEBserver.on("/change_variable", HTTP_GET, [](AsyncWebServerRequest *request){ serve_change_variable( request ); } );  // change internal APP variable values
 
+  WEBserver.on("/logo",       HTTP_GET, [](AsyncWebServerRequest *request){ Serial.println(F("logo")); request->send(LittleFS, "/media/logo.png", "image/jpg"); }); // logo for home page
+
   Serial.println(F("\n---------- Start up End\n"));
 
 }

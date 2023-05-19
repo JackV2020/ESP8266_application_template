@@ -107,8 +107,8 @@ an easy way to setup new applications :
                     (ElagantOTA by Ayush Sharma)
               - the WiFi manager
 
-On the bottom of the WiFi manager and setup pages an app password has to entered.
-Default setup password is a single dot (.) which can be changed from the system setup page.
+On the bottom of the WiFi manager and setup pages an app password has to be entered.
+Default setup password is a single dot (.) which can be changed from the System Setup page.
 We do not forget passwords but someone else may. They might check the 'Passwords' section below.
 
 Navigate to a page by clicking on a button. 
@@ -145,15 +145,18 @@ This is why it has a WiFi manager running on its access point.
 <br>The password is 1234567890. 
 <br>Connect a laptop/phone to the SSID and logon.
 <br>Note that it may take some time for the SSID to appear. Sometimes I disable WiFi on my phone, wait a bit and enable it again.
-<br> After log in we can use the browser to go to the home page like : http://'the IP address'/
-<br>We will see the WiFi manager page where we select an SSID and enter a password.
-Here we also can change the hostname newdevice to something else. ( See 'Demo mode' below )
-Click save and a reboot will follow. Read what is on the screen.....
+<br>After log in we can use the browser to go to the home page like : http://'the IP address'/
+<br>We will see the WiFi manager page where we select an SSID and enter the password of the WiFi.
+<br>Here we also can change the hostname newdevice to something else. ( See 'Demo mode' below )
+<br>Enter the app password which initially is a dot (.) 
+<br>Click save and a reboot will follow. Read what is on the screen.....
 When we changed the hostname a new SSID will be created like 'thenewhostname 192.168.4.1' with password 1234567890.
-Connect to that new SSID like we just did the first time and when the WiFi SSID
- and password we gave in on the web page are correct we will see how to browse to the device over our WiFi.
-When there is an error, we will see the WiFi manager page again.
- 
+Connect to that new SSID like we just did the first time and when the WiFi SSID 
+and password we gave in on the web page are correct we will see how to browse to the device over our WiFi.
+When the connection to the WiFi failed, we will see the WiFi manager page again.
+
+The access point will shutdown 15 minutes after boot so when you need access to it later you need to reboot.
+
 #### Demo mode, data and mail
 
 When you do not have a bme280 you can run in demo mode.

@@ -68,7 +68,7 @@ void readbme280() {
 
     if ( lcl_lastupdateminute == -1 ) {
         for ( int i = 0; i < 121 ; i++ ) {
-          PressureMinutes[i] = real_pressure;
+          PressureMinutes[i] = Pressure;
         }
         if (firstTimeUpdateAfterConnect > 0 ) { lcl_lastupdateminute = tmstruct.tm_min; }
     } else {
@@ -79,7 +79,7 @@ void readbme280() {
           PressureMinutes[i] = PressureMinutes[i+1];
 //        toprint= toprint + " ["+String(i)+"] : "+String(PressureMinutes[i]);
         }
-        PressureMinutes[120] = real_pressure ;
+        PressureMinutes[120] = Pressure ;
 //        toprint= toprint + " [120] : "+String(PressureMinutes[120]);
 //        Serial.println(toprint);
       }

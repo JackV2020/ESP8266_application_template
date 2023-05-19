@@ -99,6 +99,7 @@ void updateTime() {
 
 bool lcl_startToConnect = true;
 
+bool softAPRunning = true;
 Pinger lcl_pinger;                    // object to ping default gateway to check if we have connection
 int lcl_pingCount;
 int lcl_max_pingCount = 300;           // after reboot or WiFi lost try to connect every 300 seconds;
@@ -159,7 +160,11 @@ void systemTickerRoutine()  {
 
 // and run a counter to be reported by serve_json
 
-  loopCounter += 1; if (loopCounter == 10000) {loopCounter = -10000 ; };
+  loopCounter += 1; 
+  
+  if (loopCounter == 900 && softAPRunning) { log(F("Shutdown Access Point") ) ; WiFi.softAPdisconnect(true) ; softAPRunning = false ; };
+
+  if (loopCounter == 10000) {loopCounter = -10000 ; };
 
   flip_LED();
 

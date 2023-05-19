@@ -1,0 +1,288 @@
+<html>
+  <head>
+    <title>
+      Sudoku Solver by Jack Veraart
+    </title>
+
+<SCRIPT Language="javascript">
+
+//________________________
+
+var iterations = 0
+var values=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+//________________________
+
+function PrintScript () { window.print() }
+
+//________________________
+
+function check_row(index) {
+base = Math.floor( index / 9 ) * 9
+toppie = base + 8
+exit_status = 1
+myvalue = document.getElementById("c"+index).value;
+for ( i = base; i <= toppie; i++ ) {
+    checkvalue = document.getElementById("c"+i).value;
+if ( ( i != index ) && ( checkvalue == myvalue ) ) { exit_status = 0 }
+}
+return exit_status
+}
+
+//________________________
+
+function check_column(index) {
+base = index % 9
+toppie = base + 72
+exit_status = 1
+myvalue = document.getElementById("c"+index).value;
+for ( i = base; i <= toppie; i=i+9 ) {
+    checkvalue = document.getElementById("c"+i).value;
+if ( ( i != index ) && ( myvalue == checkvalue ) ) { exit_status = 0 }
+}
+return exit_status
+}
+
+//________________________
+
+function check_diag(index) {
+
+//http://sudoku.menu/diagonal.html
+
+// do something for 0,10,20..40..80
+
+exit_status = 1
+myvalue = document.getElementById("c"+index).value;
+
+  if ( ( index % 10 ) == 0 ) { 
+    for (i = 0; i <= 80; i=i+10) {
+        checkvalue = document.getElementById("c"+i).value*1;
+        if ( ( i != index ) && ( myvalue == checkvalue ) ) { 
+            exit_status = 0 
+//            exit_status = 1
+        }
+    }
+  }
+
+// do something else for 8,16,..40..72
+
+  if ( ( exit_status == 1 )  && ( ( index % 8 ) == 0 ) ) { 
+ 
+    for (i = 8; i <= 72; i=i+8) {
+        checkvalue = document.getElementById("c"+i).value*1;
+        if ( ( i != index ) && ( myvalue == checkvalue ) ) { 
+            exit_status = 0 
+//            exit_status = 1
+        }
+    }
+  }
+
+return exit_status
+}
+
+//________________________
+
+function check_block(index) {
+base = Math.floor ( index / 3 ) * 3
+base = ( base % 9 ) + ( Math.floor ( base / 27 ) * 27 )
+exit_status = 1
+myvalue = document.getElementById("c"+index).value;
+
+if ( index > base+2 ) {
+for ( i = base; i <= base+2; i++ ) {
+    checkvalue = document.getElementById("c"+i).value;
+    if ( ( i != index ) && ( myvalue ==checkvalue ) ) { exit_status = 0 } }
+}
+if (( index < base+9 ) || ( index > base+11 )) {
+if ( exit_status == 1 ) { for ( i = base+9; i <= base+9+2; i++ ) {
+    checkvalue = document.getElementById("c"+i).value;
+    if ( ( i != index ) && ( myvalue == checkvalue ) ) { exit_status = 0 } }
+}
+}
+if ( index < base+18 ) {
+if ( exit_status == 1 )  { for ( i = base+18; i <= base+18+2; i++ ) {
+    checkvalue = document.getElementById("c"+i).value;
+    if ( ( i != index ) && ( myvalue == checkvalue ) ) { exit_status = 0 } }
+}
+}
+return exit_status
+}
+
+//________________________
+
+function Solve_Puzzle(index)  {
+
+//  document.getElementById('iterations').value = document.getElementById('iterations').value * 1 + 1;
+  exit_status = 0;
+  if ( index == 81 ) {
+    exit_status = 1
+  } else {
+      
+        var celli = document.getElementById("c"+index);
+        values[index] = celli.value;
+        if (values[index] != 0) {
+            exit_status = Solve_Puzzle(index+1)
+        } else {
+//            celli.value = index;
+//            Solve_Puzzle(index+1);
+            values[index] = 0
+            do
+            {
+                values[index]=values[index]+1
+                celli.value = values[index];
+                exit_status = check_row(index)
+//                window.alert("Happy Sudoku Solving!"+exit_status)
+                if (exit_status == 1) { exit_status = check_column(index) }
+                if (exit_status == 1) { exit_status = check_block(index) }
+//                if (exit_status == 1) { exit_status = check_diag(index) }
+                if (exit_status == 1) { exit_status = Solve_Puzzle(index+1) }
+
+            }
+            while ((exit_status != 1) && (values[index] != 9) )
+            if ( exit_status != 1 ) { 
+                celli.value = ""
+            }
+        }
+  }
+
+  return exit_status
+
+}
+
+//________________________
+
+
+// Activated when form is loaded
+function OnloadRoutine() {
+window.resizeTo(window.screen.availWidth / 2,window.screen.availHeight / 1.3)
+window.moveTo(window.screen.availWidth / 4, 0)
+window.alert("Happy Sudoku Solving!")
+}
+
+</script>
+
+</head>
+<body onload="OnloadRoutine();">
+<center>
+<h1>Sudoku Solver</h1>
+<!-- // build the table sudoku with cells a<0..80> -->
+<table id='sudokutable' cellspacing="5" STYLE="center;font:10 pt arial" border="5">
+<tr id="row0">
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c0" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c1" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c2" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c3" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c4" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c5" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c6" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c7" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c8" value=""></td>
+</tr>
+<tr id="row1">
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c9" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c10" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c11" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c12" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c13" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c14" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c15" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c16" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c17" value=""></td>
+</tr>
+<tr id="row2">
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c18" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c19" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c20" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c21" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c22" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c23" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c24" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c25" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c26" value=""></td>
+</tr>
+
+<tr id="row3">
+<td width=40><input type="text"                                     size="1" id="c27" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c28" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c29" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c30" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c31" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c32" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c33" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c34" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c35" value=""></td>
+</tr>
+<tr id="row4">
+<td width=40><input type="text"                                     size="1" id="c36" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c37" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c38" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c39" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c40" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c41" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c42" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c43" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c44" value=""></td>
+</tr>
+<tr id="row5">
+<td width=40><input type="text"                                     size="1" id="c45" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c46" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c47" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c48" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c49" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c50" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c51" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c52" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c53" value=""></td>
+</tr>
+
+
+<tr id="row6">
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c54" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c55" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c56" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c57" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c58" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c59" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c60" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c61" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c62" value=""></td>
+</tr>
+<tr id="row7">
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c63" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c64" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c65" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c66" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c67" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c68" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c69" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c70" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c71" value=""></td>
+</tr>
+<tr id="row8">
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c72" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c73" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c74" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c75" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c76" value=""></td>
+<td width=40><input type="text"                                     size="1" id="c77" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c78" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c79" value=""></td>
+<td width=40><input type="text" style="background-color:lightgrey"  size="1" id="c80" value=""></td>
+</tr>
+<tr>
+<td colspan="2"><input type="text" size="7" name="b" value="Iterations"></td>
+<td colspan="2"><input type="text" size="7" id='iterations' value="0"></td>
+</tr>
+</table>
+      <br>Fill in the form and hit the Solve button
+      <br>
+      <br>
+      <input id=runbutton  class="button" type="button" value="Reset" name="buttonReset"  onClick="window.location.href = '/SudokuSolver.html';" title="Click here to reset this window.">
+      <input id=runbutton  class="button" type="button" value="Solve" name="buttonsolve"  onClick="Solve_Puzzle(0);" title="Click here to solve the puzzle.">
+      <input id=runbutton  class="button" type="button" value="Print" name="buttonPrint"  onClick="PrintScript()" title="Click here to make a screenprint.">
+      <input id=runbutton  class="button" type="button" value="Close" name="buttonClose"  onClick="javascript:window.close();" title="Click here to close this application.">
+      <br>
+
+</center>
+</body>
+</html>

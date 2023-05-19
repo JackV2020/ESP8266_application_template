@@ -227,23 +227,8 @@ function switch_page(direction) {
 }
 
 </script>
-<!--
-//<center><button class="rnd_btn" style="position:fixed; bottom:20">Press</button></center>
-//   https://www.w3schools.com/howto/howto_css_center_button.asp
-//<center><div style="text-align: center;border: 3px solid green;width:100px;height:50px;"><button style="position: absolute; left: 50%;transform: translateX(-50%);">Button</button></div></center>
-//<center><div style="text-align: center;border: 3px solid green;width:100px;height:50px;"><button class="rnd_btn" style="position: absolute; left: 50%;transform: translateX(-50%);">Button</button></div></center>
-//   CENTERED DIV ---v
-//<center><div style="position: absolute; bottom:20; left: 50%;transform: translateX(-50%);border: 3px solid green;width:300px;height:100px;" onclick="window.location.href = '/';"></div></center>
-//<center><div ondblclick="window.location.href = '/barometer';" style="position: absolute; bottom:20; left: 50%;transform: translateX(-50%);border: 3px solid green;width:50%;height:50px;"></div></center>
--->
 <center><div ondblclick="switch_page('0'); " style="position: absolute; top:20;    left: 50%;transform: translateX(-50%);width:50%;height:100px;border: 0px solid red;"></div></center>
 <center><div ondblclick="switch_page('0'); " style="position: absolute; bottom:20; left: 50%;transform: translateX(-50%);width:50%;height:100px;border: 0px solid red;"></div></center>
-<!--
-//   CENTERED DIV ---^
-//   CENTERED BUTTON ---v
-//<button onclick="window.location.href = '/barometer';" class="rnd_btn" style="position: absolute; bottom:20; left: 50%;transform: translateX(-50%);">Barometer</button>
-//   LEFT DIV ---
--->
 <div onclick="switch_page('prev'); " style="position: absolute; bottom:20;  left:0;border: 0px solid red;width:25%;height:100px;"></div>
 <div onclick="switch_page('next'); " style="position: absolute; bottom:20; right:0;border: 0px solid red;width:25%;height:100px;"></div>
 

@@ -105,7 +105,7 @@ void readFile(String path, String & data ) {
   String single_character;
   data ="";
   while (file.available()) {
-    single_character = file.read();
+    single_character = char(file.read());
     data.concat(single_character);
   }
   file.close();
@@ -155,7 +155,7 @@ String contentOfFile(String path) {
 
   String single_character;
   while (file.available()) {
-    single_character = file.read();
+    single_character = char(file.read());
     data.concat(single_character);
   }
   file.close();
@@ -185,7 +185,7 @@ void appendFile(String path, String message, String seperator, int maxSize) {
 
       String single_character;
       while (file.available()) {
-        single_character = file.read();
+        single_character = char(file.read());
         data.concat(single_character);
         if ( (maxSize > 0) and (data.length() > maxSize ) ) {data.remove(0,data.indexOf(seperator)+seperator.length());}; // remove first line
         }
@@ -212,7 +212,7 @@ void prependFile(String path, String message, String seperator, int maxSize ) {
 
     String single_character;
     while (file.available()) {
-      single_character = file.read();
+      single_character = char(file.read());
       if (maxSize == 0 ) {
         data.concat(single_character);
       } else {

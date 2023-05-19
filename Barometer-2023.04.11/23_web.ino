@@ -264,7 +264,8 @@ void serve_json (AsyncWebServerRequest * request) {
     html_response.concat(F("\" , \"boottime\":\""));          html_response.concat(boottime);
     html_response.concat(F("\" , \"loopCounter\":\""));       html_response.concat(String(loopCounter));
     html_response.concat(F("\" , \"led\":\""));               html_response.concat(led);
-    
+
+
     html_response.concat(F("\" , \"FreeHeap\":\""));           html_response.concat(String(ESP.getFreeHeap()));
     html_response.concat(F("\" , \"HeapFragmentation\":\""));  html_response.concat(String(ESP.getHeapFragmentation()));
     html_response.concat(F("\" , \"MaxFreeBlockSize\":\""));   html_response.concat(String(ESP.getMaxFreeBlockSize()));
@@ -286,6 +287,8 @@ void serve_json (AsyncWebServerRequest * request) {
     html_response.concat(F("\" , \"Pressure1h\":\""));  html_response.concat(String(hour_hpa1hour));
     html_response.concat(F("\" , \"Pressure2h\":\""));  html_response.concat(String(hour_hpa2hour));
 
+    html_response.concat(F("\" , \"barometer_page_nr\":\""));               html_response.concat(String(barometer_page_nr));
+
 //  ***** End APP specific fields
 
     html_response.concat(F("\"}"));
@@ -303,7 +306,8 @@ void serve_json (AsyncWebServerRequest * request) {
 void serve_change_variable (AsyncWebServerRequest * request) {
 
 // This function can be called from web pages to change variables
-  if (virtualhost == ap_IP) {
+//  if (virtualhost == ap_IP) {
+  if (1 == 2) {
     html_response = F("Not found");
   } else {
 

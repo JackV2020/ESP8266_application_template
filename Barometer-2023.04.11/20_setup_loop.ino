@@ -4,6 +4,8 @@
 
 void app_setup(){
 
+//  demomode =  demomode or (sta_hostname == F("barometerburo"));
+
   Serial.println(F("\n ----- Start app setup"));
 
 // WATCH IT !! Do not change "/app" because this is activated from the app button on the standard home page.
@@ -18,6 +20,10 @@ void app_setup(){
   WEBserver.on("/testgif", HTTP_GET, [](AsyncWebServerRequest *request){ request->send(LittleFS, "/media/test.gif", "image/gif"); });
 
   WEBserver.on("/testmedia", HTTP_GET, [](AsyncWebServerRequest *request){ serve_testmedia( request ); } );
+
+// send a file
+
+  WEBserver.on("/sudokusolver", HTTP_ANY, [](AsyncWebServerRequest *request){ request->send(LittleFS, "/SudokuSolver.html");});
 
 // ----- Start the Ticker
 

@@ -198,10 +198,11 @@ void serve_home (AsyncWebServerRequest * request, String mode) {
     } else {                                  // We have a WiFi connection and are on the STA interface so show the APP home page
       html_response = String(sta_Header);
       html_response.concat(String(sta_HomePage));
-      html_response.replace("STYLE",F("style=\"background-color:Chartreuse\""));
       html_response.replace("APPNAME",app_name);
       char* c = const_cast<char*>(html_response.c_str());
       request->send_P(200, texthtml, c);
+// ######################
+      barometer_page_nr =0;
     }
   }
 }
